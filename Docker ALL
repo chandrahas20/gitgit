@@ -1,0 +1,277 @@
+installation od docker in linux:
+
+sudo yum update -y
+sudo yum install -y docker 
+sudo service docker start
+
+ 
+
+
+ 
+Vi dockerfile 
+FROM tomcat:8.0.20-jre8
+RUN sed -i '/<\/tomcat-users>/ i\<user username="admin" password="password" roles="admin-gui,manager-gui"/>' /usr/local/tomcat/conf/tomcat-users.xml
+#COPY tomcat-users.xml /usr/local/tomcat/conf/tomcat-users.xml
+COPY java-web-app.war /usr/local/tomcat/webapps/gradle-web-app.war
+
+Docker build -t tomcat .
+Docker images
+ 
+
+Docker run –name Chandra -p 8081:8080 
+Docker run –name Chandra -p 8081:8080 cb746cdbdf80
+ 
+
+
+ 
+
+
+docker login -u chandra1243
+
+ 
+
+
+
+
+
+
+docker tag chandra:latest chandra1243/dockerhub:myfirstimagepush
+docker push sirimalla/dockerhub:myfirstimagepush
+ 
+
+  
+
+
+
+UBUNTU:
+Sudo apt-get install docker.io
+Docker –version
+Sudo usermod -aG docker $USER
+Docker version
+Git clone url
+Vi dockerfile
+FROM tomcat:8.0.20-jre8
+COPY target/maven-web-app*.war /usr/local/tomcat/webapps/maven-web-application.war
+docker build -t chandra/maven-web-app1 .
+mvn clean package
+docker login -u username
+password
+docker push username/image:tag
+docker run -d –name javawebapp -p 8080:8082 dockerhandson/java-web-app
+docker ps
+docker network ls
+docker run -d --name mavenwebapp -p 8080:8082 dockerhandson/maven-web-a
+docker run -d  --name mongodb mongo
+docker ps -a
+docker inspect containerid
+docker exec -it javawebapp bash
+ping mavenwebapp
+ping ip   (working)
+exit
+docker rm -f $(docker ps -aq)
+docker run -d --name javawebapp --network chandra -p 8080:8080  dockerhandson/java-web-app
+docker run -d --name mongo  --network chandra   mongo
+docker ps
+docker inspect container id   (network chandra)
+ docker exec -it javawebapp bash
+docker mongo and ping ip both are working
+
+
+host networkL:
+docker run -d --name javawebapp --network host dockerhandson/java-web-app
+host has no ip address: so we can access to server ip
+docker run -d --name mavenwebapp --network host dockerhandson/maven-web-app
+(alreadey port is working 8080 so it will be termented checking docker ps) and we can check docker logs id:
+
+docker logs f8a5d9327f51
+docker ps -a
+docker ps
+docker container ls
+docker container ls -a
+docker create –name mavenwebapp dockerhandson/maven-web-app
+docker start container id or image name
+docker run -d -p –name mavenwebapp dockerhandson/mavenwebapp  (_p is port binding)
+docker ps -o wide
+sudo netstart -tulnp
+docker top container id
+docker run –memory =”512” ,--cpu=”1”
+docker stats containername
+docker logs containername
+docker exec -it container pwd
+docker exec -it containerid ps
+docker commit containerid
+docker attach containerid
+docker pause containerid
+docker unpasues containerid
+docker stop, restart, start, rm, kill, rename
+docker save -o tar filename
+
+mkdir Dockerfile:
+cd Dockerfile
+vi dockerfile
+FROM centos
+RUN echo "run one"
+RUN echo "run two"
+ENTRYPOINT ["echo","welcome from entrypoint"]
+FROM java:jdk-1.80
+FROM MYSQl
+
+
+
+Node js applicatiom:
+Git clone url(https://github.com/MithunTechnologiesDevOps/nodejs-app-mss.git)
+Cd nodeja-app-mss
+Vi dockerfile
+FROM node:12
+RUN mkdir -p /usr/app
+WORKDIR /usr/app
+COPY ..
+RUN npm install
+CMD["node","app.js"]
+Docker build -t chandra1243/nodejsapp .
+Docker inspect container id:
+       [],
+            "Cmd": [
+                "node",
+                "app.js"]
+
+docker run -d --name nodejsapp -p 8000:9981  chandra1243/nodeappjs
+server ip:8000/html
+volumes:
+
+sudo ls /var/lib/docker
+sudo ls /var/lib/docker/volumes
+sudo ls /var/lib/docker/volumes/ae54742af2d1908edda910d2180dc9643ca60d5dcde7a240059064f9edf80186 sudo ls /var/lib/docker/volumes/ae54742af2d1908edda910d2180dc9643ca60d5dcde7a240059064f9edf80186/_data
+docker run -e MONGO_DB_HOSTNAME=mongo -e MONGO_DB_USERNAME=Chandra  -e MONGO_DB_PASSWORd=chandu@123
+
+docker run -d –name mongo -e MONGO_INITDB_ROOT_USERNAME=Chandra -e MONGO_INITDB_ROOT_PASSWORD=Chandra@123 
+
+
+
+git clone (spring-boot -url: https://github.com/MithunTechnologiesDevOps/spring-boot-mongo-docker.git)
+cd spring-boot –
+mvn clean package
+ls
+cat dockerfile
+docker build -t chandra1243/spring-boot-mongo .
+docker images
+docker push chandra1243/spring-boot-mongo
+
+
+ 
+sudo ls /var/lib/docker/volumes
+
+ERROR:
+Create new instance and connect 
+Install docker
+And permission
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/auth": dial unix /var/run/docker.sock: connect: permission denied
+SOLUTION:
+sudo chmod 666 /var/run/docker.sock
+docker run -d --name springapp -p 8080:8080 -e MONGO_DB_HOSTNAME=mongo -e MONGO_DB_USERNAME=Chandra  -e MONGO_DB_PASSWORd=chandu@123 chandra1243/spring-boot-mongo
+serverip:8080(google)
+docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=Chandra -e MONGO_INITDB_ROOT_PASSWORD=Chandra@123  mongo (datbase)
+
+custom network:
+docker network create -d bridge springappnetwork
+docker network ls
+remove all containers
+Attached networks:
+docker run -d --name springapp -p 8080:8080 -e MONGO_DB_HOSTNAME=mongo -e MONGO_DB_USERNAME=Chandra  -e MONGO_DB_PASSWORd=chandu@123 --network springappnetwork  chandra1243/spring-boot-mongo
+docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=Chandra -e MONGO_INITDB_ROOT_PASSWORD=Chandra@123 --network springappnetwork   mongo
+docker exec mongo ls /data/db
+
+connected to volume:
+docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=Chandra -e MONGO_INITDB_ROOT_PASSWORD=Chandra@123  -v /home/ubuntu/mongodb:/data/db  --network springappnetwork   mongo (bind volume)l
+ls mongodb
+docker volume ls
+docker volume create -d local mongodbvol
+docker volume inspect mongodbvol
+
+docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=Chandra -e MONGO_INITDB_ROOT_PASSWORD=Chandra@123 -v mongodbvol:/data/db  --network springappnetwork   mongo  (persistent volume)
+
+docker plugin install rexray/ebs EBS_ACCESSKEY=AKIAX7O75DUIGMMKYFUR EBS_SECRETKEY=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^C
+docker volume create -d  rexray/ebs mongodbebsvol 
+
+
+DOCKER COMPOSE:
+docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=Chandra -e MONGO_INITDB_ROOT_PASSWORD=Chandra@123 -v mongodbvol:/data/db  --network springappnetwork   mongo  
+version:”3.2” 
+service:
+  springapp:
+	image:  chandra1243/spring-boot-mongo
+    depends_on: mongo
+    ports:
+	- 8080:8080
+    networks:
+	- Springappnetwork
+	Enviornment:
+	- MONGO_DB_HOSTNAME=mongo
+	- MONGO_DB_USERNAME=Chandra  
+	- MONGO_DB_PASSWORd=chandu@123
+	Container_name: springappcontainer
+  Mongo:
+	Image: mongo
+	Enviornment:
+	- MONGO_INITDB_ROOT_USERNAME=Chandra
+	- MONGO_INITDB_ROOT_PASSWORD=Chandra@123
+	Volumes:
+	- Mongodbvol:/data/db
+	networks:
+	- Springappnetwork
+volume:
+  mongodbvol:
+    driver: rexray/ebs   
+network:
+  springappnetwork:
+    driver: bridge
+
+sudo apt install docker-compose
+docker compose config
+docker compose up -d
+docker compose down
+docker system prune(clean)
+docker rmi -f $(docker images -aq)
+docker network prune
+docker volume prune -y
+
+
+ 
+Docker swarm:
+docker swarm init
+docker node ls
+ to add worker node to command (docker swarm join command (it will be shown at the time of docker swarm init command)
+docker swarm join-token worker  ----------   token generated
+docker swarm join-token manager
+deploy an image:
+docker swarm services:
+replica(default mode)
+global
+docker service create –name  javawebappservice   -p  8080:8080 chandra1243/java-web-app
+docker service ps javawebappservice
+docker service ls
+sudo apt install net-tools(worker node)
+sudo netstat -tulnp
+docker stop container id (it will be create automatically another one high availability)
+docker service scale  javaewbappservice=3
+docker network ls
+docker service create –name mavenwebapp  --mode global -p 9090:8080 chandra1243/maven-web-app
+docker node ps id
+docker service ps id
+docker node inspect
+docker service create –name mavenwebapp –constraint “node.role=worker”  --mode global -p 9090:8080 chandra1243/maven-web-app
+docker service create –name mavenwebapp --replicas  3  –constraint “node.role=worker”  --mode global -p 9090:8080 chandra1243/maven-web-app
+docker service rm(docker servise ls -q)
+docker node update nodeid –availability drain
+docker service create –name mavenwebapp  --mode global -p 9090:8080 chandra1243/maven-web-app
+docker service ps javawebappservice
+docker node update nodeid –availability active
+  
+
+
+
+ 
+
+
+
+
